@@ -47,16 +47,15 @@ def main():
 
         if isMouseOn(mousePosition, play_button_Rect):
             sound = True
+            screen.blit(play_button, play_button_Rect)
             if event.type == pygame.MOUSEBUTTONDOWN:
                 main_menu = False
                 gamePlaySound.play()
                 game.play(screen)
-
-            screen.blit(play_button2, play_button_Rect)
         else:
             sound = False
             keep_sound = False
-            screen.blit(play_button, play_button_Rect)
+            screen.blit(play_button2, play_button_Rect)
         pygame.display.flip() # pygame.display.update()
         # clock.tick(FPS)
 
