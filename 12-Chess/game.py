@@ -15,6 +15,10 @@ board = [
     [first] * 4
     for _ in range(3)
 ]
+for i in range(len(board)):
+    for j in range(len(board[0])):
+        board[i][j] = tuple(sum(e) for e in zip(board[i][j], (board_block * i, board_block * j)))
+
 def get_firstPosition():
     board_block = round(board_Rect.w / 3)
     piece_block = pygame.image.load("img/ja_green.png").get_rect().w
@@ -22,40 +26,19 @@ def get_firstPosition():
     first = (board_Rect.x + offset, board_Rect.y + offset)
     return first
 
-def batch(screen):
-    for i in range(len(board)):
-        for j in range(len(board[0])):
-            board[i][j] = tuple(sum(e) for e in zip(board[i][j], (board_block*i, board_block*j)))
-
+def generate():
     global sang, jang, king, ja
     global enemy_sang, enemy_jang, enemy_king, enemy_ja
-    sang_x, sang_y = board[0][3]
-    king_x, king_y = board[1][3]
-    jang_x, jang_y = board[2][3]
-    ja_x, ja_y = board[1][2]
-    sang = piece.Sang("green", sang_x, sang_y)
-    king = piece.King("green", king_x, king_y)
-    jang = piece.Jang("green", jang_x, jang_y)
-    ja = piece.Ja("green", ja_x, ja_y, hu=False)
 
-    enemy_jang_x, enemy_jang_y = board[0][0]
-    enemy_king_x, enemy_king_y = board[1][0]
-    enemy_sang_x, enemy_sang_y = board[2][0]
-    enemy_ja_x, enemy_ja_y = board[1][1]
-    enemy_sang = piece.Sang("red", enemy_sang_x, enemy_sang_y)
-    enemy_king = piece.King("red", enemy_king_x, enemy_king_y)
-    enemy_jang = piece.Jang("red", enemy_jang_x, enemy_jang_y)
-    enemy_ja = piece.Ja("red", enemy_ja_x, enemy_ja_y, hu=False)
+    sang = piece.Sang("green", 0, 3, selected=False)
+    king = piece.King("green", 1, 3, selected=False)
+    jang = piece.Jang("green", 2, 3, selected=False)
+    ja = piece.Ja("green", 1, 2, hu=False, selected=False)
 
-    screen.blit(jang.object, jang.rect)
-    screen.blit(king.object, king.rect)
-    screen.blit(sang.object, sang.rect)
-    screen.blit(ja.object, ja.rect)
-
-    screen.blit(enemy_jang.object, enemy_jang.rect)
-    screen.blit(enemy_king.object, enemy_king.rect)
-    screen.blit(enemy_sang.object, enemy_sang.rect)
-    screen.blit(enemy_ja.object, enemy_ja.rect)
+    enemy_jang = piece.Jang("red", 0, 0, selected=False)
+    enemy_king = piece.King("red", 1, 0, selected=False)
+    enemy_sang = piece.Sang("red", 2, 0, selected=False)
+    enemy_ja = piece.Ja("red", 1, 1, hu=False, selected=False)
 
 def fixedPosition(mousePos):
     x, y = mousePos[0], mousePos[1]
@@ -67,21 +50,32 @@ def fixedPosition(mousePos):
                     # x, y = board[i][j]
                     x, y = i, j
     else:
-        x, y = -1, -1
+        x, y = -10, -10
 
     return x, y
 
-def play(screen):
-
-    screen.blit(inplay_screen, (0, 0))
+def draw(screen):
     screen.blit(board_img, board_Rect)
-    batch(screen)
+    screen.blit(jang.object, board[jang.rect.x][jang.rect.y])
+    screen.blit(king.object, board[king.rect.x][king.rect.y])
+    screen.blit(sang.object, board[sang.rect.x][sang.rect.y])
+    screen.blit(ja.object, board[ja.rect.x][ja.rect.y])
+
+    screen.blit(enemy_jang.object, board[enemy_jang.rect.x][enemy_jang.rect.y])
+    screen.blit(enemy_king.object, board[enemy_king.rect.x][enemy_king.rect.y])
+    screen.blit(enemy_sang.object, board[enemy_sang.rect.x][enemy_sang.rect.y])
+    screen.blit(enemy_ja.object, board[enemy_ja.rect.x][enemy_ja.rect.y])
+
+def play(screen):
+    screen.blit(inplay_screen, (0, 0))
+    generate()
 
     running = True
     turn = "green"
 
     while running:
         mousePosition = pygame.mouse.get_pos()
+        draw(screen)
 
         for event in pygame.event.get():
             if event.type  == pygame.QUIT:
@@ -90,11 +84,56 @@ def play(screen):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 fixed_x, fixed_y = fixedPosition(mousePosition)
 
-                # if turn == "green":
-                #
-                # elif turn == "red":
+                moved = False
+                if turn == "green":
+                    if sang.selected:
+                        if abs(fixed_x-sang.rect.x) == 1 and abs(fixed_y-sang.rect.y) == 1:
+                            sang.move(fixed_x, fixed_y)
+                            moved = True
+                    if jang.selected:
+                        if abs(fixed_x-jang.rect.x) + abs(fixed_y-jang.rect.y) == 1:
+                            jang.move(fixed_x, fixed_y)
+                            moved = True
+                    if king.selected:
+                        if (abs(fixed_x-king.rect.x) == 1 and abs(fixed_y-king.rect.y) == 1) or abs(fixed_x-king.rect.x) + abs(fixed_y-king.rect.y) == 1:
+                            king.move(fixed_x, fixed_y)
+                            moved = True
+                    if ja.selected:
+                        if fixed_y-ja.rect.y == 1:
+                            ja.move(fixed_x, fixed_y)
+                            moved = True
+                    if moved:
+                        turn = "red"
+                    else:
+                        sang.select(fixed_x, fixed_y)
+                        jang.select(fixed_x, fixed_y)
+                        king.select(fixed_x, fixed_y)
+                        ja.select(fixed_x, fixed_y)
 
-
-
+                elif turn == "red":
+                    if enemy_sang.selected:
+                        if abs(fixed_x - enemy_sang.rect.x) == 1 and abs(fixed_y - enemy_sang.rect.y) == 1:
+                            enemy_sang.move(fixed_x, fixed_y)
+                            moved = True
+                    if enemy_jang.selected:
+                        if abs(fixed_x - enemy_jang.rect.x) + abs(fixed_y - enemy_jang.rect.y) == 1:
+                            enemy_jang.move(fixed_x, fixed_y)
+                            moved = True
+                    if enemy_king.selected:
+                        if (abs(fixed_x - enemy_king.rect.x) == 1 and abs(fixed_y - enemy_king.rect.y) == 1) or abs(
+                                fixed_x - enemy_king.rect.x) + abs(fixed_y - enemy_king.rect.y) == 1:
+                            enemy_king.move(fixed_x, fixed_y)
+                            moved = True
+                    if enemy_ja.selected:
+                        if enemy_ja.rect.y - fixed_y == 1:
+                            enemy_ja.move(fixed_x, fixed_y)
+                            moved = True
+                    if moved:
+                        turn = "green"
+                    else:
+                        enemy_sang.select(fixed_x, fixed_y)
+                        enemy_jang.select(fixed_x, fixed_y)
+                        enemy_king.select(fixed_x, fixed_y)
+                        enemy_ja.select(fixed_x, fixed_y)
 
         pygame.display.flip()
