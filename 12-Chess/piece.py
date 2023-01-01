@@ -7,6 +7,7 @@ class Sang:
         elif color == "red":
             img = pygame.image.load("img/sang_red.png")
             self.object = pygame.transform.rotate(img, 180)
+        self.color = color
         self.rect = self.object.get_rect()
         self.rect.x = xp
         self.rect.y = yp
@@ -34,6 +35,7 @@ class Jang:
         elif color == "red":
             img = pygame.image.load("img/jang_red.png")
             self.object = pygame.transform.rotate(img, 180)
+        self.color = color
         self.rect = self.object.get_rect()
         self.rect.x = xp
         self.rect.y = yp
@@ -60,6 +62,7 @@ class King:
         elif color == "red":
             img = pygame.image.load("img/king_red.png")
             self.object = pygame.transform.rotate(img, 180)
+        self.color = color
         self.rect = self.object.get_rect()
         self.rect.x = xp
         self.rect.y = yp
@@ -90,10 +93,11 @@ class Ja:
         self.rect.x = xp
         self.rect.y = yp
         self.color = color
+        self.hu = hu
         self.selected = selected
 
-    def change(self, hu):
-        if hu:
+    def change(self):
+        if self.hu:
             if self.color == "green":
                 self.object = pygame.image.load("img/hu_green.png")
             elif self.color == "red":
