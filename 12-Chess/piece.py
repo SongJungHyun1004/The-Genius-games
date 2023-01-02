@@ -16,17 +16,24 @@ class Sang:
     def select(self, mouseX, mouseY):
         if self.rect.x == mouseX and self.rect.y == mouseY:
             self.selected = True
-            print("select sang")
         else:
             self.selected = False
-            print("deselect sang")
 
     def move(self, movX, movY):
         self.rect.x = movX
         self.rect.y = movY
         self.selected = False
-        print("move sang")
 
+    def taked(self, num):
+        if self.color == "green":
+            img = pygame.image.load("img/sang_red.png")
+            self.object = pygame.transform.rotate(img, 180)
+            self.color = "red"
+        elif self.color == "red":
+            self.object = pygame.image.load("img/sang_green.png")
+            self.color = "green"
+        self.object = pygame.transform.scale(self.object, (80, 80))
+        self.rect.x = -num
 
 class Jang:
     def __init__(self, color, xp, yp, selected):
@@ -44,16 +51,24 @@ class Jang:
     def select(self, mouseX, mouseY):
         if self.rect.x == mouseX and self.rect.y == mouseY:
             self.selected = True
-            print("select jang")
         else:
             self.selected = False
-            print("deselect jang")
 
     def move(self, movX, movY):
         self.rect.x = movX
         self.rect.y = movY
         self.selected = False
-        print("move jang")
+
+    def taked(self, num):
+        if self.color == "green":
+            img = pygame.image.load("img/jang_red.png")
+            self.object = pygame.transform.rotate(img, 180)
+            self.color = "red"
+        elif self.color == "red":
+            self.object = pygame.image.load("img/jang_green.png")
+            self.color = "green"
+        self.object = pygame.transform.scale(self.object, (80, 80))
+        self.rect.x = -num
 
 class King:
     def __init__(self, color, xp, yp, selected):
@@ -71,16 +86,24 @@ class King:
     def select(self, mouseX, mouseY):
         if self.rect.x == mouseX and self.rect.y == mouseY:
             self.selected = True
-            print("select king")
         else:
             self.selected = False
-            print("deselect king")
 
     def move(self, movX, movY):
         self.rect.x = movX
         self.rect.y = movY
         self.selected = False
-        print("move king")
+
+    def taked(self, num):
+        if self.color == "green":
+            img = pygame.image.load("img/king_red.png")
+            self.object = pygame.transform.rotate(img, 180)
+            self.color = "red"
+        elif self.color == "red":
+            self.object = pygame.image.load("img/king_green.png")
+            self.color = "green"
+        self.object = pygame.transform.scale(self.object, (80, 80))
+        self.rect.x = -num
 
 class Ja:
     def __init__(self, color, xp, yp, hu, selected):
@@ -113,14 +136,21 @@ class Ja:
     def select(self, mouseX, mouseY):
         if self.rect.x == mouseX and self.rect.y == mouseY:
             self.selected = True
-            print("select ja")
         else:
             self.selected = False
-            print("deselect ja")
 
     def move(self, movX, movY):
         self.rect.x = movX
         self.rect.y = movY
         self.selected = False
-        print("move ja")
 
+    def taked(self, num):
+        if self.color == "green":
+            img = pygame.image.load("img/ja_red.png")
+            self.object = pygame.transform.rotate(img, 180)
+            self.color = "red"
+        elif self.color == "red":
+            self.object = pygame.image.load("img/ja_green.png")
+            self.color = "green"
+        self.object = pygame.transform.scale(self.object, (80, 80))
+        self.rect.x = -num
