@@ -152,5 +152,6 @@ class Ja:
         elif self.color == "red":
             self.object = pygame.image.load("img/ja_green.png")
             self.color = "green"
+        self.hu = False
         self.object = pygame.transform.scale(self.object, (80, 80))
         self.rect.x = -num

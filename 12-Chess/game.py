@@ -99,65 +99,65 @@ def draw(screen):
     if jang.rect.x < 0:
         n = -jang.rect.x
         if jang.color == "green":
-            screen.blit(jang.object, (100+n*90, 800))
+            screen.blit(jang.object, (50+n*90, 830))
         elif jang.color == "red":
-            screen.blit(jang.object, (600-n*90, 50))
+            screen.blit(jang.object, (600-n*90, 35))
     else:
         screen.blit(jang.object, board[jang.rect.x][jang.rect.y])
     if sang.rect.x < 0:
         n = -sang.rect.x
         if sang.color == "green":
-            screen.blit(sang.object, (100+n*90, 800))
+            screen.blit(sang.object, (50+n*90, 830))
         elif sang.color == "red":
-            screen.blit(sang.object, (600-n*90, 50))
+            screen.blit(sang.object, (600-n*90, 35))
     else:
         screen.blit(sang.object, board[sang.rect.x][sang.rect.y])
     if king.rect.x < 0:
         n = -king.rect.x
         if king.color == "green":
-            screen.blit(king.object, (100+n*90, 800))
+            screen.blit(king.object, (50+n*90, 830))
         elif king.color == "red":
-            screen.blit(king.object, (600-n*90, 50))
+            screen.blit(king.object, (600-n*90, 35))
     else:
         screen.blit(king.object, board[king.rect.x][king.rect.y])
     if ja.rect.x < 0:
         n = -ja.rect.x
         if ja.color == "green":
-            screen.blit(ja.object, (100+n*90, 800))
+            screen.blit(ja.object, (50+n*90, 830))
         elif ja.color == "red":
-            screen.blit(ja.object, (600-n*90, 50))
+            screen.blit(ja.object, (600-n*90, 35))
     else:
         screen.blit(ja.object, board[ja.rect.x][ja.rect.y])
     if enemy_sang.rect.x < 0:
         n = -enemy_sang.rect.x
         if enemy_sang.color == "green":
-            screen.blit(enemy_sang.object, (100+n*90, 800))
+            screen.blit(enemy_sang.object, (50+n*90, 830))
         elif enemy_sang.color == "red":
-            screen.blit(enemy_sang.object, (600-n*90, 50))
+            screen.blit(enemy_sang.object, (600-n*90, 35))
     else:
         screen.blit(enemy_sang.object, board[enemy_sang.rect.x][enemy_sang.rect.y])
     if enemy_jang.rect.x < 0:
         n = -enemy_jang.rect.x
         if enemy_jang.color == "green":
-            screen.blit(enemy_jang.object, (100+n*90, 800))
+            screen.blit(enemy_jang.object, (50+n*90, 830))
         elif enemy_jang.color == "red":
-            screen.blit(enemy_jang.object, (600-n*90, 50))
+            screen.blit(enemy_jang.object, (600-n*90, 35))
     else:
         screen.blit(enemy_jang.object, board[enemy_jang.rect.x][enemy_jang.rect.y])
     if enemy_king.rect.x < 0:
         n = -enemy_king.rect.x
         if enemy_king.color == "green":
-            screen.blit(enemy_king.object, (100+n*90, 800))
+            screen.blit(enemy_king.object, (50+n*90, 830))
         elif enemy_king.color == "red":
-            screen.blit(enemy_king.object, (600-n*90, 50))
+            screen.blit(enemy_king.object, (600-n*90, 35))
     else:
         screen.blit(enemy_king.object, board[enemy_king.rect.x][enemy_king.rect.y])
     if enemy_ja.rect.x < 0:
         n = -enemy_ja.rect.x
         if enemy_ja.color == "green":
-            screen.blit(enemy_ja.object, (100+n*90, 800))
+            screen.blit(enemy_ja.object, (50+n*90, 830))
         elif enemy_ja.color == "red":
-            screen.blit(enemy_ja.object, (600-n*90, 50))
+            screen.blit(enemy_ja.object, (600-n*90, 35))
     else:
         screen.blit(enemy_ja.object, board[enemy_ja.rect.x][enemy_ja.rect.y])
 
