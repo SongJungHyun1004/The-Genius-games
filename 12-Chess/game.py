@@ -57,6 +57,17 @@ def fixedPosition(mousePos):
 
         if (510 <= x <= 510+80 and 35 <= y <= 35+80) or (140 <= x <= 140+80 and 830 <= y <= 830+80):
             x = -1
+        elif (420 <= x <= 500 and 35 <= y <= 35+80) or (230 <= x <= 310 and 830 <= y <= 830+80):
+            x = -2
+        elif (330 <= x <= 410 and 35 <= y <= 35+80) or (320 <= x <= 400 and 830 <= y <= 830+80):
+            x = -3
+        elif (240 <= x <= 320 and 35 <= y <= 35+80) or (410 <= x <= 490 and 830 <= y <= 830+80):
+            x = -4
+        elif (150 <= x <= 230 and 35 <= y <= 35+80) or (500 <= x <= 580 and 830 <= y <= 830+80):
+            x = -5
+        elif (60 <= x <= 140 and 35 <= y <= 35+80) or (590 <= x <= 670 and 830 <= y <= 830+80):
+            x = -6
+
         else:
             x, y = -10, -10
 
@@ -326,7 +337,7 @@ def play(screen):
                                 king.move(fixed_x, fixed_y)
                                 moved = True
                     if ja.selected and ja.color == "red":
-                        if ja.rect.x < 0:
+                        if -10 < ja.rect.x < 0:
                             ja.move(fixed_x, fixed_y)
                             moved = True
                         selectSound.play()
