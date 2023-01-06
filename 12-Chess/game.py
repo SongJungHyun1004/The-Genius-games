@@ -177,6 +177,31 @@ def draw(screen):
     else:
         screen.blit(enemy_ja.object, board[enemy_ja.rect.x][enemy_ja.rect.y])
 
+def rearrange(turn):
+    global numG
+    global numR
+
+    if sang.color == turn and sang.rect.x < -1:
+        sang.rect.x += 1
+    if jang.color == turn and jang.rect.x < -1:
+        jang.rect.x += 1
+    if king.color == turn and king.rect.x < -1:
+        king.rect.x += 1
+    if ja.color == turn and ja.rect.x < -1:
+        ja.rect.x += 1
+    if enemy_sang.color == turn and enemy_sang.rect.x < -1:
+        enemy_sang.rect.x += 1
+    if enemy_jang.color == turn and enemy_jang.rect.x < -1:
+        enemy_jang.rect.x += 1
+    if enemy_king.color == turn and enemy_king.rect.x < -1:
+        enemy_king.rect.x += 1
+    if enemy_ja.color == turn and enemy_ja.rect.x < -1:
+        enemy_ja.rect.x += 1
+    if turn == "green":
+        numG -= 1
+    elif turn == "red":
+        numR -= 1
+
 def play(screen):
 
     generate()
@@ -185,7 +210,7 @@ def play(screen):
     moveSound = pygame.mixer.Sound("sound/move.ogg")
 
     running = True
-    turn = "Green"
+    turn = "green"
 
     while running:
         mousePosition = pygame.mouse.get_pos()
@@ -199,27 +224,47 @@ def play(screen):
                 fixed_x, fixed_y = fixedPosition(mousePosition)
 
                 moved = False
-                if turn == "Green":
+                if turn == "green":
                     if sang.selected and sang.color == "green":
                         selectSound.play()
+                        if -10 < sang.rect.x < 0:
+                            if fixed_y != 0:
+                                sang.move(fixed_x, fixed_y)
+                                moved = True
+                                rearrange(turn)
                         if abs(fixed_x-sang.rect.x) == 1 and abs(fixed_y-sang.rect.y) == 1:
                             if canMove(sang, fixed_x, fixed_y):
                                 sang.move(fixed_x, fixed_y)
                                 moved = True
                     if jang.selected and jang.color == "green":
                         selectSound.play()
+                        if -10 < jang.rect.x < 0:
+                            if fixed_y != 0:
+                                jang.move(fixed_x, fixed_y)
+                                moved = True
+                                rearrange(turn)
                         if abs(fixed_x-jang.rect.x) + abs(fixed_y-jang.rect.y) == 1:
                             if canMove(jang, fixed_x, fixed_y):
                                 jang.move(fixed_x, fixed_y)
                                 moved = True
                     if king.selected and king.color == "green":
                         selectSound.play()
+                        if -10 < king.rect.x < 0:
+                            if fixed_y != 0:
+                                king.move(fixed_x, fixed_y)
+                                moved = True
+                                rearrange(turn)
                         if (abs(fixed_x-king.rect.x) == 1 and abs(fixed_y-king.rect.y) == 1) or abs(fixed_x-king.rect.x) + abs(fixed_y-king.rect.y) == 1:
                             if canMove(king, fixed_x, fixed_y):
                                 king.move(fixed_x, fixed_y)
                                 moved = True
                     if ja.selected and ja.color == "green":
                         selectSound.play()
+                        if -10 < ja.rect.x < 0:
+                            if fixed_y != 0:
+                                ja.move(fixed_x, fixed_y)
+                                moved = True
+                                rearrange(turn)
                         if ja.hu:
                             if abs(fixed_x - ja.rect.x) + abs(
                                     fixed_y - ja.rect.y) == 1 or ja.rect.y - fixed_y== 1:
@@ -236,24 +281,44 @@ def play(screen):
                                     moved = True
                     if enemy_sang.selected and enemy_sang.color == "green":
                         selectSound.play()
+                        if -10 < enemy_sang.rect.x < 0:
+                            if fixed_y != 0:
+                                enemy_sang.move(fixed_x, fixed_y)
+                                moved = True
+                                rearrange(turn)
                         if abs(fixed_x-enemy_sang.rect.x) == 1 and abs(fixed_y-enemy_sang.rect.y) == 1:
                             if canMove(enemy_sang, fixed_x, fixed_y):
                                 enemy_sang.move(fixed_x, fixed_y)
                                 moved = True
                     if enemy_jang.selected and enemy_jang.color == "green":
                         selectSound.play()
+                        if -10 < enemy_jang.rect.x < 0:
+                            if fixed_y != 0:
+                                enemy_jang.move(fixed_x, fixed_y)
+                                moved = True
+                                rearrange(turn)
                         if abs(fixed_x-enemy_jang.rect.x) + abs(fixed_y-enemy_jang.rect.y) == 1:
                             if canMove(enemy_jang, fixed_x, fixed_y):
                                 enemy_jang.move(fixed_x, fixed_y)
                                 moved = True
                     if enemy_king.selected and enemy_king.color == "green":
                         selectSound.play()
+                        if -10 < enemy_king.rect.x < 0:
+                            if fixed_y != 0:
+                                enemy_king.move(fixed_x, fixed_y)
+                                moved = True
+                                rearrange(turn)
                         if (abs(fixed_x-enemy_king.rect.x) == 1 and abs(fixed_y-enemy_king.rect.y) == 1) or abs(fixed_x-enemy_king.rect.x) + abs(fixed_y-enemy_king.rect.y) == 1:
                             if canMove(enemy_king, fixed_x, fixed_y):
                                 enemy_king.move(fixed_x, fixed_y)
                                 moved = True
                     if enemy_ja.selected and enemy_ja.color == "green":
                         selectSound.play()
+                        if -10 < enemy_ja.rect.x < 0:
+                            if fixed_y != 0:
+                                enemy_ja.move(fixed_x, fixed_y)
+                                moved = True
+                                rearrange(turn)
                         if enemy_ja.hu:
                             if abs(fixed_x - enemy_ja.rect.x) + abs(
                                     fixed_y - enemy_ja.rect.y) == 1 or enemy_ja.rect.y - fixed_y== 1:
@@ -271,32 +336,55 @@ def play(screen):
 
                     if moved:
                         moveSound.play()
-                        turn = "Red"
+                        turn = "red"
                     else:
-                        sang.select(fixed_x, fixed_y)
-                        jang.select(fixed_x, fixed_y)
-                        king.select(fixed_x, fixed_y)
-                        ja.select(fixed_x, fixed_y)
-                        enemy_sang.select(fixed_x, fixed_y)
-                        enemy_jang.select(fixed_x, fixed_y)
-                        enemy_king.select(fixed_x, fixed_y)
-                        enemy_ja.select(fixed_x, fixed_y)
+                        if sang.color == "green":
+                            sang.select(fixed_x, fixed_y)
+                        if jang.color == "green":
+                            jang.select(fixed_x, fixed_y)
+                        if king.color == "green":
+                            king.select(fixed_x, fixed_y)
+                        if ja.color == "green":
+                            ja.select(fixed_x, fixed_y)
+                        if enemy_sang.color == "green":
+                            enemy_sang.select(fixed_x, fixed_y)
+                        if enemy_jang.color == "green":
+                            enemy_jang.select(fixed_x, fixed_y)
+                        if enemy_king.color == "green":
+                            enemy_king.select(fixed_x, fixed_y)
+                        if enemy_ja.color == "green":
+                            enemy_ja.select(fixed_x, fixed_y)
 
-                elif turn == "Red":
+                elif turn == "red":
                     if enemy_sang.selected and enemy_sang.color == "red":
                         selectSound.play()
+                        if -10 < enemy_sang.rect.x < 0:
+                            if fixed_y != 3:
+                                enemy_sang.move(fixed_x, fixed_y)
+                                moved = True
+                                rearrange(turn)
                         if abs(fixed_x - enemy_sang.rect.x) == 1 and abs(fixed_y - enemy_sang.rect.y) == 1:
                             if canMove(enemy_sang, fixed_x, fixed_y):
                                 enemy_sang.move(fixed_x, fixed_y)
                                 moved = True
                     if enemy_jang.selected and enemy_jang.color == "red":
                         selectSound.play()
+                        if -10 < enemy_jang.rect.x < 0:
+                            if fixed_y != 3:
+                                enemy_jang.move(fixed_x, fixed_y)
+                                moved = True
+                                rearrange(turn)
                         if abs(fixed_x - enemy_jang.rect.x) + abs(fixed_y - enemy_jang.rect.y) == 1:
                             if canMove(enemy_jang, fixed_x, fixed_y):
                                 enemy_jang.move(fixed_x, fixed_y)
                                 moved = True
                     if enemy_king.selected and enemy_king.color == "red":
                         selectSound.play()
+                        if -10 < enemy_king.rect.x < 0:
+                            if fixed_y != 3:
+                                enemy_king.move(fixed_x, fixed_y)
+                                moved = True
+                                rearrange(turn)
                         if (abs(fixed_x - enemy_king.rect.x) == 1 and abs(fixed_y - enemy_king.rect.y) == 1) or abs(
                                 fixed_x - enemy_king.rect.x) + abs(fixed_y - enemy_king.rect.y) == 1:
                             if canMove(enemy_king, fixed_x, fixed_y):
@@ -304,6 +392,11 @@ def play(screen):
                                 moved = True
                     if enemy_ja.selected and enemy_ja.color == "red":
                         selectSound.play()
+                        if -10 < enemy_ja.rect.x < 0:
+                            if fixed_y != 3:
+                                enemy_ja.move(fixed_x, fixed_y)
+                                moved = True
+                                rearrange(turn)
                         if enemy_ja.hu:
                             if abs(fixed_x - enemy_ja.rect.x) + abs(fixed_y - enemy_ja.rect.y) == 1  or fixed_y - enemy_ja.rect.y == 1:
                                 if canMove(enemy_ja, fixed_x, fixed_y):
@@ -319,28 +412,45 @@ def play(screen):
                                     moved = True
                     if sang.selected and sang.color == "red":
                         selectSound.play()
+                        if -10 < sang.rect.x < 0:
+                            if fixed_y != 3:
+                                sang.move(fixed_x, fixed_y)
+                                moved = True
+                                rearrange(turn)
                         if abs(fixed_x - sang.rect.x) == 1 and abs(fixed_y - sang.rect.y) == 1:
                             if canMove(sang, fixed_x, fixed_y):
                                 sang.move(fixed_x, fixed_y)
                                 moved = True
                     if jang.selected and jang.color == "red":
                         selectSound.play()
+                        if -10 < jang.rect.x < 0:
+                            if fixed_y != 3:
+                                jang.move(fixed_x, fixed_y)
+                                moved = True
+                                rearrange(turn)
                         if abs(fixed_x - jang.rect.x) + abs(fixed_y - jang.rect.y) == 1:
                             if canMove(jang, fixed_x, fixed_y):
                                 jang.move(fixed_x, fixed_y)
                                 moved = True
                     if king.selected and king.color == "red":
                         selectSound.play()
+                        if -10 < king.rect.x < 0:
+                            if fixed_y != 3:
+                                king.move(fixed_x, fixed_y)
+                                moved = True
+                                rearrange(turn)
                         if (abs(fixed_x - king.rect.x) == 1 and abs(fixed_y - king.rect.y) == 1) or abs(
                                 fixed_x - king.rect.x) + abs(fixed_y - king.rect.y) == 1:
                             if canMove(king, fixed_x, fixed_y):
                                 king.move(fixed_x, fixed_y)
                                 moved = True
                     if ja.selected and ja.color == "red":
-                        if -10 < ja.rect.x < 0:
-                            ja.move(fixed_x, fixed_y)
-                            moved = True
                         selectSound.play()
+                        if -10 < ja.rect.x < 0:
+                            if fixed_y != 3:
+                                ja.move(fixed_x, fixed_y)
+                                moved = True
+                                rearrange(turn)
                         if ja.hu:
                             if abs(fixed_x - ja.rect.x) + abs(fixed_y - ja.rect.y) == 1  or fixed_y - ja.rect.y == 1:
                                 if canMove(ja, fixed_x, fixed_y):
@@ -357,15 +467,23 @@ def play(screen):
 
                     if moved:
                         moveSound.play()
-                        turn = "Green"
+                        turn = "green"
                     else:
-                        enemy_sang.select(fixed_x, fixed_y)
-                        enemy_jang.select(fixed_x, fixed_y)
-                        enemy_king.select(fixed_x, fixed_y)
-                        enemy_ja.select(fixed_x, fixed_y)
-                        sang.select(fixed_x, fixed_y)
-                        jang.select(fixed_x, fixed_y)
-                        king.select(fixed_x, fixed_y)
-                        ja.select(fixed_x, fixed_y)
+                        if enemy_sang.color == "red":
+                            enemy_sang.select(fixed_x, fixed_y)
+                        if enemy_jang.color == "red":
+                            enemy_jang.select(fixed_x, fixed_y)
+                        if enemy_king.color == "red":
+                            enemy_king.select(fixed_x, fixed_y)
+                        if enemy_ja.color == "red":
+                            enemy_ja.select(fixed_x, fixed_y)
+                        if sang.color == "red":
+                            sang.select(fixed_x, fixed_y)
+                        if jang.color == "red":
+                            jang.select(fixed_x, fixed_y)
+                        if king.color == "red":
+                            king.select(fixed_x, fixed_y)
+                        if ja.color == "red":
+                            ja.select(fixed_x, fixed_y)
 
         pygame.display.flip()
