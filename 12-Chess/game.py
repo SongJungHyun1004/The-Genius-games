@@ -177,25 +177,25 @@ def draw(screen):
     else:
         screen.blit(enemy_ja.object, board[enemy_ja.rect.x][enemy_ja.rect.y])
 
-def rearrange(turn):
+def rearrange(turn, n):
     global numG
     global numR
 
-    if sang.color == turn and sang.rect.x < -1:
+    if sang.color == turn and sang.rect.x < -n:
         sang.rect.x += 1
-    if jang.color == turn and jang.rect.x < -1:
+    if jang.color == turn and jang.rect.x < -n:
         jang.rect.x += 1
-    if king.color == turn and king.rect.x < -1:
+    if king.color == turn and king.rect.x < -n:
         king.rect.x += 1
-    if ja.color == turn and ja.rect.x < -1:
+    if ja.color == turn and ja.rect.x < -n:
         ja.rect.x += 1
-    if enemy_sang.color == turn and enemy_sang.rect.x < -1:
+    if enemy_sang.color == turn and enemy_sang.rect.x < -n:
         enemy_sang.rect.x += 1
-    if enemy_jang.color == turn and enemy_jang.rect.x < -1:
+    if enemy_jang.color == turn and enemy_jang.rect.x < -n:
         enemy_jang.rect.x += 1
-    if enemy_king.color == turn and enemy_king.rect.x < -1:
+    if enemy_king.color == turn and enemy_king.rect.x < -n:
         enemy_king.rect.x += 1
-    if enemy_ja.color == turn and enemy_ja.rect.x < -1:
+    if enemy_ja.color == turn and enemy_ja.rect.x < -n:
         enemy_ja.rect.x += 1
     if turn == "green":
         numG -= 1
@@ -229,9 +229,10 @@ def play(screen):
                         selectSound.play()
                         if -10 < sang.rect.x < 0:
                             if fixed_y != 0:
-                                sang.move(fixed_x, fixed_y)
-                                moved = True
-                                rearrange(turn)
+                                if canMove(sang, fixed_x, fixed_y):
+                                    sang.move(fixed_x, fixed_y)
+                                    moved = True
+                                    rearrange(turn, fixed_x)
                         if abs(fixed_x-sang.rect.x) == 1 and abs(fixed_y-sang.rect.y) == 1:
                             if canMove(sang, fixed_x, fixed_y):
                                 sang.move(fixed_x, fixed_y)
@@ -240,9 +241,10 @@ def play(screen):
                         selectSound.play()
                         if -10 < jang.rect.x < 0:
                             if fixed_y != 0:
-                                jang.move(fixed_x, fixed_y)
-                                moved = True
-                                rearrange(turn)
+                                if canMove(jang, fixed_x, fixed_y):
+                                    jang.move(fixed_x, fixed_y)
+                                    moved = True
+                                    rearrange(turn, fixed_x)
                         if abs(fixed_x-jang.rect.x) + abs(fixed_y-jang.rect.y) == 1:
                             if canMove(jang, fixed_x, fixed_y):
                                 jang.move(fixed_x, fixed_y)
@@ -251,9 +253,10 @@ def play(screen):
                         selectSound.play()
                         if -10 < king.rect.x < 0:
                             if fixed_y != 0:
-                                king.move(fixed_x, fixed_y)
-                                moved = True
-                                rearrange(turn)
+                                if canMove(king, fixed_x, fixed_y):
+                                    king.move(fixed_x, fixed_y)
+                                    moved = True
+                                    rearrange(turn, fixed_x)
                         if (abs(fixed_x-king.rect.x) == 1 and abs(fixed_y-king.rect.y) == 1) or abs(fixed_x-king.rect.x) + abs(fixed_y-king.rect.y) == 1:
                             if canMove(king, fixed_x, fixed_y):
                                 king.move(fixed_x, fixed_y)
@@ -262,9 +265,10 @@ def play(screen):
                         selectSound.play()
                         if -10 < ja.rect.x < 0:
                             if fixed_y != 0:
-                                ja.move(fixed_x, fixed_y)
-                                moved = True
-                                rearrange(turn)
+                                if canMove(ja, fixed_x, fixed_y):
+                                    ja.move(fixed_x, fixed_y)
+                                    moved = True
+                                    rearrange(turn, fixed_x)
                         if ja.hu:
                             if abs(fixed_x - ja.rect.x) + abs(
                                     fixed_y - ja.rect.y) == 1 or ja.rect.y - fixed_y== 1:
@@ -283,9 +287,10 @@ def play(screen):
                         selectSound.play()
                         if -10 < enemy_sang.rect.x < 0:
                             if fixed_y != 0:
-                                enemy_sang.move(fixed_x, fixed_y)
-                                moved = True
-                                rearrange(turn)
+                                if canMove(enemy_sang, fixed_x, fixed_y):
+                                    enemy_sang.move(fixed_x, fixed_y)
+                                    moved = True
+                                    rearrange(turn, fixed_x)
                         if abs(fixed_x-enemy_sang.rect.x) == 1 and abs(fixed_y-enemy_sang.rect.y) == 1:
                             if canMove(enemy_sang, fixed_x, fixed_y):
                                 enemy_sang.move(fixed_x, fixed_y)
@@ -294,9 +299,10 @@ def play(screen):
                         selectSound.play()
                         if -10 < enemy_jang.rect.x < 0:
                             if fixed_y != 0:
-                                enemy_jang.move(fixed_x, fixed_y)
-                                moved = True
-                                rearrange(turn)
+                                if canMove(enemy_jang, fixed_x, fixed_y):
+                                    enemy_jang.move(fixed_x, fixed_y)
+                                    moved = True
+                                    rearrange(turn, fixed_x)
                         if abs(fixed_x-enemy_jang.rect.x) + abs(fixed_y-enemy_jang.rect.y) == 1:
                             if canMove(enemy_jang, fixed_x, fixed_y):
                                 enemy_jang.move(fixed_x, fixed_y)
@@ -305,9 +311,10 @@ def play(screen):
                         selectSound.play()
                         if -10 < enemy_king.rect.x < 0:
                             if fixed_y != 0:
-                                enemy_king.move(fixed_x, fixed_y)
-                                moved = True
-                                rearrange(turn)
+                                if canMove(enemy_king, fixed_x, fixed_y):
+                                    enemy_king.move(fixed_x, fixed_y)
+                                    moved = True
+                                    rearrange(turn, fixed_x)
                         if (abs(fixed_x-enemy_king.rect.x) == 1 and abs(fixed_y-enemy_king.rect.y) == 1) or abs(fixed_x-enemy_king.rect.x) + abs(fixed_y-enemy_king.rect.y) == 1:
                             if canMove(enemy_king, fixed_x, fixed_y):
                                 enemy_king.move(fixed_x, fixed_y)
@@ -316,9 +323,10 @@ def play(screen):
                         selectSound.play()
                         if -10 < enemy_ja.rect.x < 0:
                             if fixed_y != 0:
-                                enemy_ja.move(fixed_x, fixed_y)
-                                moved = True
-                                rearrange(turn)
+                                if canMove(enemy_ja, fixed_x, fixed_y):
+                                    enemy_ja.move(fixed_x, fixed_y)
+                                    moved = True
+                                    rearrange(turn, fixed_x)
                         if enemy_ja.hu:
                             if abs(fixed_x - enemy_ja.rect.x) + abs(
                                     fixed_y - enemy_ja.rect.y) == 1 or enemy_ja.rect.y - fixed_y== 1:
@@ -360,9 +368,10 @@ def play(screen):
                         selectSound.play()
                         if -10 < enemy_sang.rect.x < 0:
                             if fixed_y != 3:
-                                enemy_sang.move(fixed_x, fixed_y)
-                                moved = True
-                                rearrange(turn)
+                                if canMove(enemy_sang, fixed_x, fixed_y):
+                                    enemy_sang.move(fixed_x, fixed_y)
+                                    moved = True
+                                    rearrange(turn, fixed_x)
                         if abs(fixed_x - enemy_sang.rect.x) == 1 and abs(fixed_y - enemy_sang.rect.y) == 1:
                             if canMove(enemy_sang, fixed_x, fixed_y):
                                 enemy_sang.move(fixed_x, fixed_y)
@@ -371,9 +380,10 @@ def play(screen):
                         selectSound.play()
                         if -10 < enemy_jang.rect.x < 0:
                             if fixed_y != 3:
-                                enemy_jang.move(fixed_x, fixed_y)
-                                moved = True
-                                rearrange(turn)
+                                if canMove(enemy_jang, fixed_x, fixed_y):
+                                    enemy_jang.move(fixed_x, fixed_y)
+                                    moved = True
+                                    rearrange(turn, fixed_x)
                         if abs(fixed_x - enemy_jang.rect.x) + abs(fixed_y - enemy_jang.rect.y) == 1:
                             if canMove(enemy_jang, fixed_x, fixed_y):
                                 enemy_jang.move(fixed_x, fixed_y)
@@ -382,9 +392,10 @@ def play(screen):
                         selectSound.play()
                         if -10 < enemy_king.rect.x < 0:
                             if fixed_y != 3:
-                                enemy_king.move(fixed_x, fixed_y)
-                                moved = True
-                                rearrange(turn)
+                                if canMove(enemy_king, fixed_x, fixed_y):
+                                    enemy_king.move(fixed_x, fixed_y)
+                                    moved = True
+                                    rearrange(turn, fixed_x)
                         if (abs(fixed_x - enemy_king.rect.x) == 1 and abs(fixed_y - enemy_king.rect.y) == 1) or abs(
                                 fixed_x - enemy_king.rect.x) + abs(fixed_y - enemy_king.rect.y) == 1:
                             if canMove(enemy_king, fixed_x, fixed_y):
@@ -394,9 +405,10 @@ def play(screen):
                         selectSound.play()
                         if -10 < enemy_ja.rect.x < 0:
                             if fixed_y != 3:
-                                enemy_ja.move(fixed_x, fixed_y)
-                                moved = True
-                                rearrange(turn)
+                                if canMove(enemy_ja, fixed_x, fixed_y):
+                                    enemy_ja.move(fixed_x, fixed_y)
+                                    moved = True
+                                    rearrange(turn, fixed_x)
                         if enemy_ja.hu:
                             if abs(fixed_x - enemy_ja.rect.x) + abs(fixed_y - enemy_ja.rect.y) == 1  or fixed_y - enemy_ja.rect.y == 1:
                                 if canMove(enemy_ja, fixed_x, fixed_y):
@@ -414,9 +426,10 @@ def play(screen):
                         selectSound.play()
                         if -10 < sang.rect.x < 0:
                             if fixed_y != 3:
-                                sang.move(fixed_x, fixed_y)
-                                moved = True
-                                rearrange(turn)
+                                if canMove(sang, fixed_x, fixed_y):
+                                    sang.move(fixed_x, fixed_y)
+                                    moved = True
+                                    rearrange(turn, fixed_x)
                         if abs(fixed_x - sang.rect.x) == 1 and abs(fixed_y - sang.rect.y) == 1:
                             if canMove(sang, fixed_x, fixed_y):
                                 sang.move(fixed_x, fixed_y)
@@ -425,9 +438,10 @@ def play(screen):
                         selectSound.play()
                         if -10 < jang.rect.x < 0:
                             if fixed_y != 3:
-                                jang.move(fixed_x, fixed_y)
-                                moved = True
-                                rearrange(turn)
+                                if canMove(jang, fixed_x, fixed_y):
+                                    jang.move(fixed_x, fixed_y)
+                                    moved = True
+                                    rearrange(turn, fixed_x)
                         if abs(fixed_x - jang.rect.x) + abs(fixed_y - jang.rect.y) == 1:
                             if canMove(jang, fixed_x, fixed_y):
                                 jang.move(fixed_x, fixed_y)
@@ -436,9 +450,10 @@ def play(screen):
                         selectSound.play()
                         if -10 < king.rect.x < 0:
                             if fixed_y != 3:
-                                king.move(fixed_x, fixed_y)
-                                moved = True
-                                rearrange(turn)
+                                if canMove(king, fixed_x, fixed_y):
+                                    king.move(fixed_x, fixed_y)
+                                    moved = True
+                                    rearrange(turn, fixed_x)
                         if (abs(fixed_x - king.rect.x) == 1 and abs(fixed_y - king.rect.y) == 1) or abs(
                                 fixed_x - king.rect.x) + abs(fixed_y - king.rect.y) == 1:
                             if canMove(king, fixed_x, fixed_y):
@@ -448,9 +463,10 @@ def play(screen):
                         selectSound.play()
                         if -10 < ja.rect.x < 0:
                             if fixed_y != 3:
-                                ja.move(fixed_x, fixed_y)
-                                moved = True
-                                rearrange(turn)
+                                if canMove(ja, fixed_x, fixed_y):
+                                    ja.move(fixed_x, fixed_y)
+                                    moved = True
+                                    rearrange(turn, fixed_x)
                         if ja.hu:
                             if abs(fixed_x - ja.rect.x) + abs(fixed_y - ja.rect.y) == 1  or fixed_y - ja.rect.y == 1:
                                 if canMove(ja, fixed_x, fixed_y):

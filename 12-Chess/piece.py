@@ -30,7 +30,7 @@ class Sang:
             if self.color == "green":
                 self.object = pygame.image.load("img/sang_green.png")
             elif self.color == "red":
-                img = pygame.image.load("img/snag_red.png")
+                img = pygame.image.load("img/sang_red.png")
                 self.object = pygame.transform.rotate(img, 180)
         self.rect.x = movX
         self.rect.y = movY
