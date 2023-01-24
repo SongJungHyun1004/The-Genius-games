@@ -23,6 +23,9 @@ global numG
 global numR
 numG = 1
 numR = 1
+global end
+end = False
+
 def get_firstPosition():
     board_block = round(board_Rect.w / 3)
     piece_block = pygame.image.load("img/ja_green.png").get_rect().w
@@ -76,6 +79,7 @@ def fixedPosition(mousePos):
 def canMove(curPiece, x, y):
     global numG
     global numR
+    global end
     if jang.rect.x == x and jang.rect.y == y:
         temp = jang
     elif sang.rect.x == x and sang.rect.y == y:
@@ -105,7 +109,13 @@ def canMove(curPiece, x, y):
         elif curPiece.color == "red":
             num = numR
             numR = numR + 1
-        temp.taked(num)
+        game_winner = temp.taked(num)
+        if game_winner == "G":
+            end = True
+            print("Green Win!")
+        elif game_winner == "R":
+            print("Red Win!")
+            end = True
         return True
 
 
@@ -215,7 +225,9 @@ def play(screen):
     while running:
         mousePosition = pygame.mouse.get_pos()
         draw(screen)
-
+        if end:
+            pygame.time.delay(5000)
+            break
         for event in pygame.event.get():
             if event.type  == pygame.QUIT:
                 running = False

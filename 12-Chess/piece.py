@@ -131,15 +131,18 @@ class King:
         self.selected = False
 
     def taked(self, num):
+        self.rect.x = -10
         if self.color == "green":
-            img = pygame.image.load("img/king_red.png")
-            self.object = pygame.transform.rotate(img, 180)
-            self.color = "red"
+            # img = pygame.image.load("img/king_red.png")
+            # self.object = pygame.transform.rotate(img, 180)
+            # self.color = "red"
+            return "R"
         elif self.color == "red":
-            self.object = pygame.image.load("img/king_green.png")
-            self.color = "green"
-        self.object = pygame.transform.scale(self.object, (80, 80))
-        self.rect.x = -num
+            return "G"
+        #     self.object = pygame.image.load("img/king_green.png")
+        #     self.color = "green"
+        # self.object = pygame.transform.scale(self.object, (80, 80))
+
 
 class Ja:
     def __init__(self, color, xp, yp, hu, selected):
