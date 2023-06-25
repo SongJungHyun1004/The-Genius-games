@@ -1,208 +1,68 @@
 import pygame.image
 
-class Sang:
-    def __init__(self, color, xp, yp, selected):
-        if color == "green":
-            self.object = pygame.image.load("img/sang_green.png")
-        elif color == "red":
-            img = pygame.image.load("img/sang_red.png")
-            self.object = pygame.transform.rotate(img, 180)
+class Piece:
+    def __init__(self, color, xp, yp, selected, piece_type):
         self.color = color
+        self.selected = selected
+        self.piece_type = piece_type
+        self.object = self.load_image()
         self.rect = self.object.get_rect()
         self.rect.x = xp
         self.rect.y = yp
-        self.selected = selected
+
+    def load_image(self):
+        image_path = f"img/{self.piece_type}_{self.color}.png"
+        image = pygame.image.load(image_path)
+        if self.color == "red":
+            image = pygame.transform.rotate(image, 180)
+        return image
 
     def select(self, mouseX, mouseY):
         if -10 < self.rect.x < 0:
-            if self.rect.x == mouseX:
-                self.selected = True
-            else:
-                self.selected = False
-            return
-        if self.rect.x == mouseX and self.rect.y == mouseY:
-            self.selected = True
+            self.selected = (self.rect.x == mouseX)
         else:
-            self.selected = False
+            self.selected = (self.rect.x == mouseX and self.rect.y == mouseY)
 
     def move(self, movX, movY):
         if -10 < self.rect.x < 0:
-            if self.color == "green":
-                self.object = pygame.image.load("img/sang_green.png")
-            elif self.color == "red":
-                img = pygame.image.load("img/sang_red.png")
-                self.object = pygame.transform.rotate(img, 180)
+            self.object = self.load_image()
         self.rect.x = movX
         self.rect.y = movY
         self.selected = False
 
     def taked(self, num):
         if self.color == "green":
-            img = pygame.image.load("img/sang_red.png")
-            self.object = pygame.transform.rotate(img, 180)
             self.color = "red"
-        elif self.color == "red":
-            self.object = pygame.image.load("img/sang_green.png")
+        else:
             self.color = "green"
+        self.object = self.load_image()
         self.object = pygame.transform.scale(self.object, (80, 80))
         self.rect.x = -num
 
-class Jang:
+class Sang(Piece):
     def __init__(self, color, xp, yp, selected):
-        if color == "green":
-            self.object = pygame.image.load("img/jang_green.png")
-        elif color == "red":
-            img = pygame.image.load("img/jang_red.png")
-            self.object = pygame.transform.rotate(img, 180)
-        self.color = color
-        self.rect = self.object.get_rect()
-        self.rect.x = xp
-        self.rect.y = yp
-        self.selected = selected
+        super().__init__(color, xp, yp, selected, "sang")
 
-    def select(self, mouseX, mouseY):
-        if -10 < self.rect.x < 0:
-            if self.rect.x == mouseX:
-                self.selected = True
-            else:
-                self.selected = False
-            return
-        if self.rect.x == mouseX and self.rect.y == mouseY:
-            self.selected = True
-        else:
-            self.selected = False
-
-    def move(self, movX, movY):
-        if -10 < self.rect.x < 0:
-            if self.color == "green":
-                self.object = pygame.image.load("img/jang_green.png")
-            elif self.color == "red":
-                img = pygame.image.load("img/jang_red.png")
-                self.object = pygame.transform.rotate(img, 180)
-        self.rect.x = movX
-        self.rect.y = movY
-        self.selected = False
-
-    def taked(self, num):
-        if self.color == "green":
-            img = pygame.image.load("img/jang_red.png")
-            self.object = pygame.transform.rotate(img, 180)
-            self.color = "red"
-        elif self.color == "red":
-            self.object = pygame.image.load("img/jang_green.png")
-            self.color = "green"
-        self.object = pygame.transform.scale(self.object, (80, 80))
-        self.rect.x = -num
-
-class King:
+class Jang(Piece):
     def __init__(self, color, xp, yp, selected):
-        if color == "green":
-            self.object = pygame.image.load("img/king_green.png")
-        elif color == "red":
-            img = pygame.image.load("img/king_red.png")
-            self.object = pygame.transform.rotate(img, 180)
-        self.color = color
-        self.rect = self.object.get_rect()
-        self.rect.x = xp
-        self.rect.y = yp
-        self.selected = selected
+        super().__init__(color, xp, yp, selected, "jang")
 
-    def select(self, mouseX, mouseY):
-        if -10 < self.rect.x < 0:
-            if self.rect.x == mouseX:
-                self.selected = True
-            else:
-                self.selected = False
-            return
-        if self.rect.x == mouseX and self.rect.y == mouseY:
-            self.selected = True
-        else:
-            self.selected = False
+class King(Piece):
+    def __init__(self, color, xp, yp, selected):
+        super().__init__(color, xp, yp, selected, "king")
 
-    def move(self, movX, movY):
-        if -10 < self.rect.x < 0:
-            if self.color == "green":
-                self.object = pygame.image.load("img/king_green.png")
-            elif self.color == "red":
-                img = pygame.image.load("img/king_red.png")
-                self.object = pygame.transform.rotate(img, 180)
-        self.rect.x = movX
-        self.rect.y = movY
-        self.selected = False
-
-    def taked(self, num):
-        self.rect.x = -10
-        if self.color == "green":
-            # img = pygame.image.load("img/king_red.png")
-            # self.object = pygame.transform.rotate(img, 180)
-            # self.color = "red"
-            return "R"
-        elif self.color == "red":
-            return "G"
-        #     self.object = pygame.image.load("img/king_green.png")
-        #     self.color = "green"
-        # self.object = pygame.transform.scale(self.object, (80, 80))
-
-
-class Ja:
+class Ja(Piece):
     def __init__(self, color, xp, yp, hu, selected):
-        if color == "green":
-            self.object = pygame.image.load("img/ja_green.png")
-        elif color == "red":
-            img = pygame.image.load("img/ja_red.png")
-            self.object = pygame.transform.rotate(img, 180)
-        self.rect = self.object.get_rect()
-        self.rect.x = xp
-        self.rect.y = yp
-        self.color = color
+        super().__init__(color, xp, yp, selected, "ja")
         self.hu = hu
-        self.selected = selected
 
     def change(self):
         if self.hu:
-            if self.color == "green":
-                self.object = pygame.image.load("img/hu_green.png")
-            elif self.color == "red":
-                img = pygame.image.load("img/hu_red.png")
-                self.object = pygame.transform.rotate(img, 180)
+            self.piece_type = "hu"
         else:
-            if self.color == "green":
-                self.object = pygame.image.load("img/ja_green.png")
-            elif self.color == "red":
-                img = pygame.image.load("img/ja_red.png")
-                self.object = pygame.transform.rotate(img, 180)
-
-    def select(self, mouseX, mouseY):
-        if -10 < self.rect.x < 0:
-            if self.rect.x == mouseX:
-                self.selected = True
-            else:
-                self.selected = False
-            return
-        if self.rect.x == mouseX and self.rect.y == mouseY:
-            self.selected = True
-        else:
-            self.selected = False
-
-    def move(self, movX, movY):
-        if -10 < self.rect.x < 0:
-            if self.color == "green":
-                self.object = pygame.image.load("img/ja_green.png")
-            elif self.color == "red":
-                img = pygame.image.load("img/ja_red.png")
-                self.object = pygame.transform.rotate(img, 180)
-        self.rect.x = movX
-        self.rect.y = movY
-        self.selected = False
+            self.piece_type = "ja"
+        self.object = self.load_image()
 
     def taked(self, num):
-        if self.color == "green":
-            img = pygame.image.load("img/ja_red.png")
-            self.object = pygame.transform.rotate(img, 180)
-            self.color = "red"
-        elif self.color == "red":
-            self.object = pygame.image.load("img/ja_green.png")
-            self.color = "green"
+        super().taked(num)
         self.hu = False
-        self.object = pygame.transform.scale(self.object, (80, 80))
-        self.rect.x = -num
